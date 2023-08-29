@@ -30,7 +30,7 @@ if (isset($_GET['ratings'])) {
 
 	}
 
-
+	
 }
 
 $qry2 = mysqli_query($con, "select * from tbl_movie where movie_id='" . $_GET['movie_id'] . "'");
@@ -114,8 +114,7 @@ $genre = $movie['Genre'];
 								</b>
 								<i class="fa-solid fa-star"></i>
 							</p>
-							<a href="<?php echo $movie['video_url']; ?>" target="_blank" class="watch_but"
-								style="text-decoration:none;">Watch Trailer</a>
+							<a href="<?php echo $movie['video_url']; ?>" target="_blank" class="watch_but" style="text-decoration:none;">Watch Trailer</a>
 
 							<h5 class="fa-2x">
 								<?= $rating_title ?>
@@ -159,7 +158,7 @@ $genre = $movie['Genre'];
 
 								$t = mysqli_query($con, "select * from tbl_theatre where id='" . $shw['theatre_id'] . "'");
 								$theatre = mysqli_fetch_array($t);
-								?>
+							?>
 
 
 								<tbody>
@@ -173,32 +172,31 @@ $genre = $movie['Genre'];
 												$ttm = mysqli_query($con, "select  * from tbl_show_time where st_id='" . $shh['st_id'] . "'");
 												$ttme = mysqli_fetch_array($ttm);
 
-												?>
+											?>
 
-												<a
-													href="check_login.php?show=<?php echo $shh['s_id']; ?>&movie=<?php echo $shh['movie_id']; ?>&theatre=<?php echo $shw['theatre_id']; ?>"><button
-														class="btn btn-default">
+												<a href="check_login.php?show=<?php echo $shh['s_id']; ?>&movie=<?php echo $shh['movie_id']; ?>&theatre=<?php echo $shw['theatre_id']; ?>"><button class="btn btn-default">
 														<?php echo date('h:i A', strtotime($ttme['start_time'])); ?>
 													</button></a>
-												<?php
+											<?php
 											}
 											?>
 										</td>
 									</tr>
 								</tbody>
-								<?php
+							<?php
 							}
 							?>
 						</table>
-						<?php
+					<?php
 					} else {
-						?>
+					?>
 						<h3 style="color:#444; font-size:23px;" class="text-center">Currently there are no any shows
 							available!</h3>
 						<p class="text-center">Please check back later!</p>
-						<?php
+					<?php
 					}
 					?>
+
 					<h3>Recommended for You</h3>
 					<div class="recommendation">
 						<?php
@@ -208,15 +206,14 @@ $genre = $movie['Genre'];
 						];
 
 						include('recommendation.php');
-
-						if (is_array($recommendedMovies)) {
-							foreach ($recommendedMovies as $movie_id => $similarity) {
-								
-								$sql = "SELECT * FROM tbl_movie WHERE movie_id = $movie_id";
-								$result = mysqli_query($con, $sql);
-								$row = mysqli_fetch_assoc($result);
-								extract($row);
-								echo "
+						if (isset($recommendedMovies)) {
+							if (is_array($recommendedMovies)) {
+								foreach ($recommendedMovies as $movieId => $similarityScore) {
+									$movieDetailsQuery = "SELECT * FROM tbl_movie WHERE movie_id = $movieId";
+									$movieDetailsResult = mysqli_query($con, $movieDetailsQuery);
+									$movieDetails = mysqli_fetch_assoc($movieDetailsResult);
+									extract($movieDetails);
+									echo "
 									<div class='movie-card'>
 									<img src='$image' alt='Movie Poster'>
 									<h2 class='movie-title'>$movie_name</h2>
@@ -230,9 +227,12 @@ $genre = $movie['Genre'];
 									<a href='about.php?movie_id=$movie_id' class='btn' >Watch now</a><br>
 									</div>
 									";
+								}
+							} else {
+								echo "<p> You have not rated any movie yet!</p>";
 							}
 						} else {
-							echo "<p> You have not rated any movie yet!</p>";
+							echo "<p>Please Login to view your recommendation</p>";
 						}
 						?>
 					</div>
