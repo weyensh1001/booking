@@ -15,7 +15,7 @@ $("#rating i").on({
         let rate = elem.attr('id');
         let movie_id = elem.attr('data-pid');            
         
-        let url = `http://localhost/booking/about.php?ratings=${rate}&movie_id=${movie_id}`;
+        let url = `http://localhost/movie_booking/about.php?ratings=${rate}&movie_id=${movie_id}`;
         $(location).attr('href',url);
     }
 });
