@@ -1,48 +1,33 @@
-<style>
-    .movie-card {
-  width: 300px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+<?php
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://a.khalti.com/api/v2/epayment/initiate/',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+    "return_url": "",
+    "website_url": "https://example.com/",
+    "amount": "1000",
+    "purchase_order_id": "Order01",
+    "purchase_order_name": "test",
 
-.movie-card img {
-  width: 100%;
-  border-radius: 8px;
-}
+   
+    }
 
-.movie-title {
-  margin-top: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
+    ',
+    CURLOPT_HTTPHEADER => array(
+        'Authorization: key live_secret_key_68791341fdd94846a146f0457ff7b455',
+        'Content-Type: application/json',
+    ),
+    ));
 
-.movie-description {
-  margin-top: 10px;
-  font-size: 14px;
-}
+    $response = curl_exec($curl);
 
-.btn {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-</style>
-<div class="movie-card">
-  <img src="movie-poster.jpg" alt="Movie Poster">
-  <h2 class="movie-title">Movie Title</h2>
-  <p class="movie-description">Movie description goes here...</p>
-  <a href="#" class="btn">Watch Now</a>
-</div>
-
-
+    curl_close($curl);
+    echo $response;
+?>

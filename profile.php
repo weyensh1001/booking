@@ -108,7 +108,7 @@ $movie = mysqli_fetch_array($qry2);
 		function pay(elem){
         	let charge = parseInt(elem.getAttribute("--data-charge") * 100);
 			reservation_id = elem.getAttribute("--data-reservation-id");
-			checkout = new KhaltiCheckout(config);
+			checkout = new KhaltiCheckout(config); 
 			checkout.show({amount:charge});
 		}
 
